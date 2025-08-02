@@ -1,19 +1,10 @@
-export PATH := $(shell go env GOPATH)/bin:$(PWD)/node_modules/.bin:$(PATH)
+help: ## Print help
+	@awk 'BEGIN {FS=":.*##";printf"Makefile\n\nUsage:\n  make [command]\n\nAvailable Commands:\n"}/^[a-zA-Z_0-9-]+:.*?##/{printf"  %-40s%s\n",$$1,$$2}/^##@/{printf"\n%s\n",substr($$0,5)}' $(MAKEFILE_LIST)
 
-.PHONY: gen
-gen: gen-go gen-ts
 
-.PHONY: gen-go
-gen-go:
-	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	@mkdir -p gen/go
-	@protoc --go_out=./gen/go --go_opt=paths=source_relative \
-		--go-grpc_out=./gen/go --go-grpc_opt=paths=source_relative \
-		api-stats/*.proto
-
-.PHONY: gen-ts
-gen-ts:
-	@pnpm install
-	@./node_modules/.bin/buf generate --output gen/ts
-
+gen-go: ## Generate protobuf files
+	@export PATH="$PATH:/opt/homebrew/bin:/Users/ethantlee/go/bin" && \
+	protoc --proto_path=proto/api-stats \
+       --go_out=gen/go/api-stats --go_opt=paths=source_relative \
+       --go-grpc_out=gen/go/api-stats --go-grpc_opt=paths=source_relative \
+       proto/api-stats/stats.proto
