@@ -1,0 +1,23 @@
+{
+  "name": "@ethanlee/pi-protos",
+  "version": "1.0.0",
+  "description": "Protobuf definitions and generated clients for the pi project.",
+  "main": "gen/ts/index.js",
+  "types": "gen/ts/index.d.ts",
+  "scripts": {
+    "build": "buf generate",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "gen/ts",
+    "proto"
+  ],
+  "devDependencies": {
+    "@bufbuild/buf": "^1.56.0",
+    "@bufbuild/protoc-gen-es": "^2.6.2",
+    "@connectrpc/protoc-gen-connect-es": "^1.6.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
