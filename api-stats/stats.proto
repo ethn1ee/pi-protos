@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package stats;
 
-option go_package = "pi/stats/proto";
+option go_package = "github.com/ethn1ee/pi-protos/gen/go/stats";
 
 service Stats {
   rpc StreamCpu(Empty) returns (stream CpuResponse) {}
